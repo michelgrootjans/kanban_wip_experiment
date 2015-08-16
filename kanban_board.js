@@ -1,23 +1,36 @@
-var kanban_board = {
-  backlog: ko.observable(100),
-  busy: ko.observable(0),
-  done: ko.observable(0),
+function kanban_board() {
+  this.todo = ko.observable(100);
+  this.busy = ko.observable(0);
+  this.done = ko.observable(0);
+  this.number_of_iterations = ko.observable(0);
 
-  iterate: function(){
+  this.iterate = function(){
     if(this.busy() > 0){
       var work_finished = Math.min(this.busy(), this.roll());
       this.busy(this.busy() - work_finished);
       this.done(this.done() + work_finished);
     }
 
-    var work_started = Math.min(this.backlog(), this.roll());
-    this.backlog(this.backlog() - work_started);
-    this.busy(this.busy() + work_started);
-  },
+    if(this.todo() > 0){
+      var work_started = Math.min(this.todo(), this.roll());
+      this.todo(this.todo() - work_started);
+      this.busy(this.busy() + work_started);
+    }
 
-  roll: function(){
+    this.number_of_iterations(this.number_of_iterations() + 1);
+  };
+
+  this.round = function(number){
+    return Math.round(number * 100)/100
+  };
+
+  this.roll = function(){
     return Math.floor((Math.random() * 6) + 1);
-  }
+  };
+
+  this.shipped_per_iteration = ko.computed(function(){
+    return this.round(this.done() / this.number_of_iterations());
+  }, this);
 };
 
 ko.applyBindings(kanban_board);

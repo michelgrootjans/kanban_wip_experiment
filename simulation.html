@@ -3,11 +3,18 @@
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
   </head>
   <body>
-  <p>Backlog: <span data-bind="text: backlog"></span></p>
+  <p>Todo: <span data-bind="text: todo"></span></p>
   <p>Busy: <span data-bind="text: busy"></span></p>
   <p>Done: <span data-bind="text: done"></span></p>
 
   <button data-bind="click: iterate">Iterate</button>
+
+  <p>
+    #Iterations: <span data-bind="text: number_of_iterations" />
+  </p>
+  <p>
+    Shipped per iteration: <span data-bind="text: shipped_per_iteration" />
+  </p>
   <script type="text/javascript" src="kanban_board.js"></script>
 
   </body>
