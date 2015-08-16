@@ -7,43 +7,60 @@ function roll(sides){
   return Math.floor((Math.random() * sides) + 1);
 };
 
-function kanban_board() {
+function Column(name){
   var self = this;
-  
-  self.todo = ko.observableArray();
-  self.busy = ko.observableArray();
-  self.done = ko.observableArray();
+  self.name = name;
+  self.stories = ko.observableArray();
+
+  self.push = function(story){
+    self.stories.push(story);
+  };
+
+  self.pop = function(){
+    self.stories.pop();
+  };
+
+  self.length = function(){
+    return self.stories().length;
+  };
+}
+
+function KanbanBoard() {
+  var self = this;
+
+  self.number_of_columns = ko.observable(5);
+  self.maximum_transfer = ko.observable(10);
+  self.amount_of_work = ko.observable(100);
+
+  self.work_columns = ko.observableArray();
   self.number_of_iterations = ko.observable();
-  self.maximum_transfer = ko.observable(6);
-  self.amount_of_work = 200;
 
   self.reset = function(){
-    self.todo.removeAll();
-    for(i=1; i <= self.amount_of_work; i++){
-      self.todo.push({name: "story " + i});
+    self.work_columns.removeAll();
+    for(i=0; i < number_of_columns(); i++){
+      self.work_columns.push(new Column("Column " + (i+1)));
     }
-    self.busy.removeAll();
-    self.done.removeAll();
+    for(i=1; i <= self.amount_of_work(); i++){
+      self.work_columns()[0].push({name: "Story " + i});
+    }
+
     self.number_of_iterations(0);
   };
-  self.reset();
 
   self.iterate = function(){
-    if(self.busy().length > 0){
-      var work_finished = Math.min(self.busy().length, roll(self.maximum_transfer()));
-      for(i=0; i < work_finished; i++){
-        self.done.push(self.busy.pop());
-      }
-    }
 
-    if(self.todo().length > 0){
-      var work_started = Math.min(self.todo().length, roll(self.maximum_transfer()));
-      for(i=0; i < work_started; i++){
-        self.busy.push(self.todo.pop());
+    for(column_index=work_columns().length-1; column_index > 0; column_index--){
+      var current_column = work_columns()[column_index];
+      var previous_column = work_columns()[column_index - 1];
+      var work_finished = Math.min(previous_column.length(), roll(self.maximum_transfer()));
+      for(number_of_stories=0; number_of_stories < work_finished; number_of_stories++){
+        current_column.push(previous_column.pop());
       }
-    }
+    };
 
-    self.number_of_iterations(self.number_of_iterations() + 1);
+    if(self.is_busy()){
+      self.number_of_iterations(self.number_of_iterations() + 1);
+    }
   };
 
   self.simulate = function(){
@@ -51,14 +68,19 @@ function kanban_board() {
     if(self.is_busy()) { setTimeout(simulate, 100) }
   };
 
-  self.is_busy = ko.computed(function(){
-    return self.todo().length + self.busy().length > 0;
-  });
+  self.done = function(){
+    return self.work_columns()[work_columns().length-1];
+  };
+
+  self.is_busy = function(){
+    return self.done().length() < self.amount_of_work();
+  };
 
   self.througput = ko.computed(function(){
     if(self.number_of_iterations() == 0){ return 0; }
-    return round(self.done().length / self.number_of_iterations());
+    if(self.work_columns().length == 0){ return 0; }
+    return round(self.done().length() / self.number_of_iterations());
   }, self);
 };
 
-ko.applyBindings(kanban_board);
+ko.applyBindings(KanbanBoard);

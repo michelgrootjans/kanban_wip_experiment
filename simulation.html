@@ -3,13 +3,20 @@
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
   </head>
   <body>
-  <p>Todo: <span data-bind="text: todo().length"></span></p>
-  <p>Busy: <span data-bind="text: busy().length"></span></p>
-  <p>Done: <span data-bind="text: done().length"></span></p>
+  <div data-bind="foreach: work_columns">
+    <p>
+      <span data-bind="text: name"></span>:
+      <span data-bind="text: length()"></span>
+    </p>
+  </div>
 
   <button data-bind="click: iterate">Iterate</button>
   <button data-bind="click: reset">Reset</button>
   <button data-bind="click: simulate">Simulate</button>
+  <p>
+    <label for="number_of_columns">Number of columns</label>
+    <input data-bind="value: number_of_columns" id="number_of_columns" />
+  </p>
   <p>
     <label for="maximum_transfer">Maximum transfer per iteration</label>
     <input data-bind="value: maximum_transfer" id="maximum_transfer" />
