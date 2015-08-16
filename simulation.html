@@ -3,9 +3,9 @@
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
   </head>
   <body>
-  <p>Todo: <span data-bind="text: todo"></span></p>
-  <p>Busy: <span data-bind="text: busy"></span></p>
-  <p>Done: <span data-bind="text: done"></span></p>
+  <p>Todo: <span data-bind="text: todo().length"></span></p>
+  <p>Busy: <span data-bind="text: busy().length"></span></p>
+  <p>Done: <span data-bind="text: done().length"></span></p>
 
   <button data-bind="click: iterate">Iterate</button>
   <button data-bind="click: reset">Reset</button>
