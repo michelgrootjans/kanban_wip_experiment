@@ -21,8 +21,8 @@ function Column(name){
     self.stories.push(story);
   };
 
-  self.pop = function(){
-    self.stories.pop();
+  self.pull_from = function(other_column){
+    self.push(other_column.pop());
   };
 
   self.length = function(){
@@ -46,7 +46,7 @@ function KanbanBoard() {
       self.work_columns.push(new Column("Column " + (i+1)));
     }
     for(i=1; i <= self.amount_of_work(); i++){
-      self.work_columns()[0].push({name: "Story " + i});
+      self.work_columns()[0].push(new Story("Story " + i));
     }
 
     self.number_of_iterations(0);
@@ -59,7 +59,7 @@ function KanbanBoard() {
       var previous_column = work_columns()[column_index - 1];
       var work_finished = Math.min(previous_column.length(), roll(self.maximum_transfer()));
       for(number_of_stories=0; number_of_stories < work_finished; number_of_stories++){
-        current_column.push(previous_column.pop());
+        current_column.pull_from(previous_column);
       }
     };
 
