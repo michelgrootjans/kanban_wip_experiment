@@ -28,6 +28,13 @@ function kanban_board() {
     return Math.floor((Math.random() * 6) + 1);
   };
 
+  this.reset = function(){
+    this.todo(100);
+    this.busy(0);
+    this.done(0);
+    this.number_of_iterations(0);
+  };
+
   this.shipped_per_iteration = ko.computed(function(){
     return this.round(this.done() / this.number_of_iterations());
   }, this);
