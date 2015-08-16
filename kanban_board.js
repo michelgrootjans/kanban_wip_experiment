@@ -14,7 +14,7 @@ function Story(name){
 
   self.increase_lead_time = function(){
     console.log("Increasing lead time of " + self.name);
-    lead_time++;
+    self.lead_time++;
   };
 }
 
@@ -58,11 +58,11 @@ function KanbanBoard() {
 
   self.reset = function(){
     self.work_columns.removeAll();
-    for(i=0; i < number_of_columns(); i++){
-      self.work_columns.push(new Column("Column " + (i+1)));
+    for(column_number=0; column_number < number_of_columns(); column_number++){
+      self.work_columns.push(new Column("Column " + (column_number+1)));
     }
-    for(i=1; i <= self.amount_of_work(); i++){
-      self.work_columns()[0].push(new Story("Story " + i));
+    for(story_index=1; story_index <= self.amount_of_work(); story_index++){
+      self.work_columns()[0].push(new Story("Story " + story_index));
     }
 
     self.number_of_iterations(0);
@@ -111,7 +111,13 @@ function KanbanBoard() {
   }, self);
 
   self.average_lead_time = ko.computed(function(){
-    return 6;
+    if(typeof done() == 'undefined') return 0;
+    if(done().length() == 0) return 0;
+    var lead_time = 0;
+    for(i=0; i<done().length(); i++){
+      lead_time += done().stories()[i].lead_time;
+    }
+    return lead_time / done().length();
   });
 };
 
