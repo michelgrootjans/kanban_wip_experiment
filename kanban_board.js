@@ -10,6 +10,12 @@ function roll(sides){
 function Story(name){
   var self = this;
   self.name = name;
+  self.lead_time = 0;
+
+  self.increase_lead_time = function(){
+    console.log("Increasing lead time of " + self.name);
+    lead_time++;
+  };
 }
 
 function Column(name){
@@ -22,7 +28,7 @@ function Column(name){
   };
 
   self.pop = function(){
-    self.stories.pop();
+    return self.stories.pop();
   };
 
   self.pull_from = function(other_column){
@@ -31,6 +37,12 @@ function Column(name){
 
   self.length = function(){
     return self.stories().length;
+  };
+
+  self.increase_lead_time = function(){
+    for(i = 0; i < self.stories().length; i++){
+      self.stories()[i].increase_lead_time();
+    }
   };
 }
 
@@ -57,7 +69,6 @@ function KanbanBoard() {
   };
 
   self.iterate = function(){
-
     for(column_index=work_columns().length-1; column_index > 0; column_index--){
       var current_column = work_columns()[column_index];
       var previous_column = work_columns()[column_index - 1];
@@ -65,6 +76,10 @@ function KanbanBoard() {
       for(number_of_stories=0; number_of_stories < work_finished; number_of_stories++){
         current_column.pull_from(previous_column);
       }
+    };
+
+    for(column_index=0; column_index < workers().length; column_index++){
+      workers()[column_index].increase_lead_time();
     };
 
     if(self.is_busy()){
@@ -79,6 +94,10 @@ function KanbanBoard() {
 
   self.done = function(){
     return self.work_columns()[work_columns().length-1];
+  };
+
+  self.workers = function(){
+    return work_columns().slice(1, -1);
   };
 
   self.is_busy = function(){
