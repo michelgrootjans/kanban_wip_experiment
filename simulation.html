@@ -3,7 +3,15 @@
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
   </head>
   <body>
-    Production: <span data-bind="text: production"></span>
-    <script type="text/javascript" src="production_line.js"></script>
+  <p>Production: <span data-bind="text: backlog"></span></p>
+  <p>Busy: <span data-bind="text: busy"></span></p>
+  <p>Done: <span data-bind="text: done"></span></p>
+
+  <p>Production: <input type="text" data-bind="value: backlog" /></p>
+  <p>Production: <input type="text" data-bind="value: busy" /></p>
+  <p>Production: <input type="text" data-bind="value: done" /></p>
+
+  <script type="text/javascript" src="kanban_board.js"></script>
+
   </body>
 </html>
