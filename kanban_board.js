@@ -21,6 +21,10 @@ function Column(name){
     self.stories.push(story);
   };
 
+  self.pop = function(){
+    self.stories.pop();
+  };
+
   self.pull_from = function(other_column){
     self.push(other_column.pop());
   };
