@@ -1,10 +1,10 @@
 function kanban_board() {
   var self = this;
   
-  self.todo = ko.observable(100);
-  self.busy = ko.observable(0);
-  self.done = ko.observable(0);
-  self.number_of_iterations = ko.observable(0);
+  self.todo = ko.observable();
+  self.busy = ko.observable();
+  self.done = ko.observable();
+  self.number_of_iterations = ko.observable();
 
   self.iterate = function(){
     if(self.busy() > 0){
@@ -27,15 +27,25 @@ function kanban_board() {
   };
 
   self.roll = function(){
-    return Math.floor((Math.random() * 6) + 1);
+    return Math.floor((Math.random() * 10) + 1);
   };
 
   self.reset = function(){
-    self.todo(100);
+    self.todo(200);
     self.busy(0);
     self.done(0);
     self.number_of_iterations(0);
   };
+  self.reset();
+
+  self.simulate = function(){
+    self.iterate();
+    if(self.is_busy()) { setTimeout(simulate, 100) }
+  };
+
+  self.is_busy = ko.computed(function(){
+    return self.todo() + self.busy() > 0;
+  });
 
   self.througput = ko.computed(function(){
     return self.round(self.done() / self.number_of_iterations());
