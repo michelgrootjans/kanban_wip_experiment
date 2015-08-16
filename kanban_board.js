@@ -15,11 +15,12 @@ function kanban_board() {
   self.done = ko.observableArray();
   self.number_of_iterations = ko.observable();
   self.maximum_transfer = ko.observable(6);
+  self.amount_of_work = 200;
 
   self.reset = function(){
     self.todo.removeAll();
-    for(i=0; i < 200; i++){
-      self.todo.push(1);
+    for(i=1; i <= self.amount_of_work; i++){
+      self.todo.push({name: "story " + i});
     }
     self.busy.removeAll();
     self.done.removeAll();
@@ -30,8 +31,6 @@ function kanban_board() {
   self.iterate = function(){
     if(self.busy().length > 0){
       var work_finished = Math.min(self.busy().length, roll(self.maximum_transfer()));
-      // self.busy(self.busy() - work_finished);
-      // self.done(self.done() + work_finished);
       for(i=0; i < work_finished; i++){
         self.done.push(self.busy.pop());
       }
@@ -39,8 +38,6 @@ function kanban_board() {
 
     if(self.todo().length > 0){
       var work_started = Math.min(self.todo().length, roll(self.maximum_transfer()));
-      // self.todo(self.todo() - work_started);
-      // self.busy(self.busy() + work_started);
       for(i=0; i < work_started; i++){
         self.busy.push(self.todo.pop());
       }
@@ -59,6 +56,7 @@ function kanban_board() {
   });
 
   self.througput = ko.computed(function(){
+    if(self.number_of_iterations() == 0){ return 0; }
     return round(self.done().length / self.number_of_iterations());
   }, self);
 };
