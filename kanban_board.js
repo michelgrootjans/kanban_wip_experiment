@@ -35,7 +35,7 @@ function kanban_board() {
     this.number_of_iterations(0);
   };
 
-  this.shipped_per_iteration = ko.computed(function(){
+  this.througput = ko.computed(function(){
     return this.round(this.done() / this.number_of_iterations());
   }, this);
 };
