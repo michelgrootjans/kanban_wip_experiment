@@ -7,6 +7,11 @@ function roll(sides){
   return Math.floor((Math.random() * sides) + 1);
 };
 
+function Story(name){
+  var self = this;
+  self.name = name;
+}
+
 function Column(name){
   var self = this;
   self.name = name;
@@ -81,6 +86,10 @@ function KanbanBoard() {
     if(self.work_columns().length == 0){ return 0; }
     return round(self.done().length() / self.number_of_iterations());
   }, self);
+
+  self.average_lead_time = ko.computed(function(){
+    return 6;
+  });
 };
 
 ko.applyBindings(KanbanBoard);
