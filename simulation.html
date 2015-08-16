@@ -4,11 +4,14 @@
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.css">
   </head>
   <body>
-  <div data-bind="foreach: work_columns">
-    <p>
-      <span data-bind="text: name"></span>:
-      <span data-bind="text: length()"></span>
-    </p>
+  <div class="container">
+  <div data-bind="foreach: work_columns" class=row>
+    <div class="col-md-1">
+      <p>
+        <span data-bind="text: name"></span>:
+        <span data-bind="text: length()"></span>
+      </p>
+    </div>
   </div>
 
   <button data-bind="click: iterate">Iterate</button>
@@ -36,6 +39,8 @@
   <p>
     Average lead time: <span data-bind="text: average_lead_time" />
   </p>
+    
+  </div>
   <script type="text/javascript" src="kanban_board.js"></script>
 
   </body>
