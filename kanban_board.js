@@ -117,7 +117,7 @@ function KanbanBoard() {
     for(i=0; i<done().length(); i++){
       lead_time += done().stories()[i].lead_time;
     }
-    return lead_time / done().length();
+    return round(lead_time / done().length());
   });
 };
 
