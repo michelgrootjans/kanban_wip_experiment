@@ -47,9 +47,9 @@ function Column(name){
 function KanbanBoard() {
   var self = this;
 
-  self.number_of_columns = ko.observable(5);
-  self.maximum_transfer = ko.observable(10);
-  self.amount_of_work = ko.observable(100);
+  self.number_of_columns = ko.observable(8);
+  self.maximum_transfer = ko.observable(5);
+  self.amount_of_work = ko.observable(500);
 
   self.work_columns = ko.observableArray();
   self.number_of_iterations = ko.observable();
@@ -90,12 +90,12 @@ function KanbanBoard() {
     if(self.is_busy()) { setTimeout(simulate, 100) }
   };
 
-  self.done = function(){
-    return self.work_columns()[work_columns().length-1];
-  };
-
   self.workers = function(){
     return work_columns().slice(1, -1);
+  };
+
+  self.done = function(){
+    return self.work_columns()[work_columns().length-1];
   };
 
   self.is_busy = function(){

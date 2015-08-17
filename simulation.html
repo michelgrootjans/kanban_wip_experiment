@@ -31,30 +31,41 @@
     </div>
   </div>
 
-  <div data-bind="foreach: work_columns" class=row>
-    <div class="col-xs-1">
-      <span data-bind="text: name"></span>
-      <span data-bind="text: length()"></span>
-    </div>
+  <div class='row'>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#Iterations</th>
+          <th>Throughput</th>
+          <th>Average lead time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-bind="text: number_of_iterations" />
+          <td data-bind="text: througput" />
+          <td data-bind="text: average_lead_time" />
+        </tr>
+      </tbody>
+    </table>
+    
   </div>
 
+  <div class='row'>
+    <table class="table">
+      <thead>
+        <tr data-bind="foreach: work_columns">
+          <th data-bind="text: name"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-bind="foreach: work_columns">
+          <td data-bind="text: length()"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#Iterations</th>
-        <th>Throughput</th>
-        <th>Average lead time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-bind="text: number_of_iterations" />
-        <td data-bind="text: througput" />
-        <td data-bind="text: average_lead_time" />
-      </tr>
-    </tbody>
-  </table>
     
   </div>
   <script type="text/javascript" src="kanban_board.js"></script>
