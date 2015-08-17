@@ -2,11 +2,37 @@
   <head>
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+
+
   <div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="number_of_columns">Number of columns</label>
+        <input data-bind="value: number_of_columns" id="number_of_columns" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="maximum_transfer">Maximum transfer per iteration</label>
+        <input data-bind="value: maximum_transfer" id="maximum_transfer" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="amount_of_work">Amount of work</label>
+        <input data-bind="value: amount_of_work" id="amount_of_work" class="form-control" />
+      </div>
+      <div class="form-group">
+
+      <button data-bind="click: iterate" class="btn btn-primary">Iterate</button>
+      <button data-bind="click: simulate" class="btn btn-default">Simulate</button>
+      <button data-bind="click: reset" class="btn btn-default">Reset</button>
+      </div>
+    </div>
+  </div>
+
   <div data-bind="foreach: work_columns" class=row>
-    <div class="col-md-1">
+    <div class="col-xs-1">
       <p>
         <span data-bind="text: name"></span>:
         <span data-bind="text: length()"></span>
@@ -14,21 +40,6 @@
     </div>
   </div>
 
-  <button data-bind="click: iterate">Iterate</button>
-  <button data-bind="click: reset">Reset</button>
-  <button data-bind="click: simulate">Simulate</button>
-  <p>
-    <label for="number_of_columns">Number of columns</label>
-    <input data-bind="value: number_of_columns" id="number_of_columns" />
-  </p>
-  <p>
-    <label for="maximum_transfer">Maximum transfer per iteration</label>
-    <input data-bind="value: maximum_transfer" id="maximum_transfer" />
-  </p>
-  <p>
-    <label for="amount_of_work">Amount of work</label>
-    <input data-bind="value: amount_of_work" id="amount_of_work" />
-  </p>
 
   <p>
     #Iterations: <span data-bind="text: number_of_iterations" />

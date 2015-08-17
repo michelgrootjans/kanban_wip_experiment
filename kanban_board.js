@@ -13,7 +13,6 @@ function Story(name){
   self.lead_time = 0;
 
   self.increase_lead_time = function(){
-    console.log("Increasing lead time of " + self.name);
     self.lead_time++;
   };
 }
