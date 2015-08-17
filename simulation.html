@@ -33,23 +33,28 @@
 
   <div data-bind="foreach: work_columns" class=row>
     <div class="col-xs-1">
-      <p>
-        <span data-bind="text: name"></span>:
-        <span data-bind="text: length()"></span>
-      </p>
+      <span data-bind="text: name"></span>
+      <span data-bind="text: length()"></span>
     </div>
   </div>
 
 
-  <p>
-    #Iterations: <span data-bind="text: number_of_iterations" />
-  </p>
-  <p>
-    Throughput: <span data-bind="text: througput" />
-  </p>
-  <p>
-    Average lead time: <span data-bind="text: average_lead_time" />
-  </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#Iterations</th>
+        <th>Throughput</th>
+        <th>Average lead time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-bind="text: number_of_iterations" />
+        <td data-bind="text: througput" />
+        <td data-bind="text: average_lead_time" />
+      </tr>
+    </tbody>
+  </table>
     
   </div>
   <script type="text/javascript" src="kanban_board.js"></script>
