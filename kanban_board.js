@@ -86,12 +86,12 @@ function KanbanBoard() {
     }
     else{
       self.statistics.push({
-        number_of_columns: self.number_of_columns,
-        maximum_transfer: self.maximum_transfer,
-        amount_of_work: self.amount_of_work,
-        number_of_iterations: self.number_of_iterations,
-        througput: self.througput,
-        average_lead_time: self.average_lead_time
+        number_of_columns: self.number_of_columns.peek(),
+        maximum_transfer: self.maximum_transfer.peek(),
+        amount_of_work: self.amount_of_work.peek(),
+        number_of_iterations: self.number_of_iterations.peek(),
+        througput: self.througput.peek(),
+        average_lead_time: self.average_lead_time.peek()
       });
     }
   };
