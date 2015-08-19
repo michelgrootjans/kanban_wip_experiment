@@ -3,7 +3,7 @@ function round(number){
 };
 
 function roll(sides){
-  return Math.floor((Math.random() * sides) + 1);
+  return Math.floor(Math.random() * sides);
 };
 
 function Story(name){
@@ -49,10 +49,11 @@ function KanbanBoard() {
 
   self.number_of_columns = ko.observable(8);
   self.maximum_transfer = ko.observable(5);
-  self.amount_of_work = ko.observable(500);
+  self.amount_of_work = ko.observable(100);
 
   self.work_columns = ko.observableArray();
   self.number_of_iterations = ko.observable();
+  self.statistics = ko.observableArray();
 
   self.reset = function(){
     self.work_columns.removeAll();
@@ -82,6 +83,16 @@ function KanbanBoard() {
 
     if(self.is_busy()){
       self.number_of_iterations(self.number_of_iterations() + 1);
+    }
+    else{
+      self.statistics.push({
+        number_of_columns: self.number_of_columns,
+        maximum_transfer: self.maximum_transfer,
+        amount_of_work: self.amount_of_work,
+        number_of_iterations: self.number_of_iterations,
+        througput: self.througput,
+        average_lead_time: self.average_lead_time
+      });
     }
   };
 

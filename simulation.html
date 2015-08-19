@@ -12,15 +12,15 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="number_of_columns">Number of columns</label>
-        <input data-bind="value: number_of_columns" id="number_of_columns" class="form-control" />
+        <input data-bind="textInput: number_of_columns" id="number_of_columns" class="form-control" />
       </div>
       <div class="form-group">
         <label for="maximum_transfer">Maximum transfer per iteration</label>
-        <input data-bind="value: maximum_transfer" id="maximum_transfer" class="form-control" />
+        <input data-bind="textInput: maximum_transfer" id="maximum_transfer" class="form-control" />
       </div>
       <div class="form-group">
         <label for="amount_of_work">Amount of work</label>
-        <input data-bind="value: amount_of_work" id="amount_of_work" class="form-control" />
+        <input data-bind="textInput: amount_of_work" id="amount_of_work" class="form-control" />
       </div>
       <div class="form-group">
 
@@ -60,7 +60,38 @@
       </thead>
       <tbody>
         <tr data-bind="foreach: work_columns">
-          <td data-bind="text: length()"></td>
+          <td>
+            <div data-bind="text: length()"></div>
+            <div data-bind="foreach: stories" class="stories">
+              <span class="story"></span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class='row'>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#columns</th>
+          <th>Max transfer</th>
+          <th>Work</th>
+          <th>Iterations</th>
+          <th>Throughput</th>
+          <th>Lead time</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: statistics">
+        <tr>
+          <td data-bind="text: number_of_columns">
+          <td data-bind="text: maximum_transfer">
+          <td data-bind="text: amount_of_work">
+          <td data-bind="text: number_of_iterations">
+          <td data-bind="text: througput">
+          <td data-bind="text: average_lead_time">
+          </td>
         </tr>
       </tbody>
     </table>
