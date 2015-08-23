@@ -82,11 +82,9 @@ var KanbanBoard = function() {
   };
 
   self.reset = function(){
-    backlog.push(new Story("Story 1"));
-    backlog.push(new Story("Story 2"));
-    backlog.push(new Story("Story 3"));
-    backlog.push(new Story("Story 4"));
-    backlog.push(new Story("Story 5"));
+    for(i=0; i<20; i++){
+      backlog.push(new Story("Story " + (i+1)));
+    }
   };
 
   self.reset();
