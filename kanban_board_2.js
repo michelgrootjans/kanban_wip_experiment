@@ -17,7 +17,7 @@ var SingleColumn = function(name){
 
   self.shift = function(){
     return self.stories.shift();
-  }
+  };
 };
 
 var DoubleColumn = function(name, origin, wipLimit){
@@ -44,9 +44,13 @@ var DoubleColumn = function(name, origin, wipLimit){
     self.busy.push(story);
   };
 
+  self.shift = function(){
+    return self.done.shift();
+  };
+
   self.push = function(story){
     self.busy.push(story);
-  }
+  };
 
   wipLimitReached = function(){ 
     return self.busy().length >= self.wip_limit(); 

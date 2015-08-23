@@ -80,4 +80,24 @@
     });
 
   });
+
+  describe('two doube columns', function(){
+      it('should pull stories from each other', function(){
+        var backlog = ['story 1', 'story 2', 'story 3', 'story 4'];
+        var work1 = new DoubleColumn("1", backlog, 2);
+        var work2 = new DoubleColumn("2", work1, 2);
+
+        work1.pull();
+        work1.pull();
+        work1.pull();
+        work1.work();
+        work1.work();
+        work2.pull();
+
+        expect(backlog).toEqual(['story 4'])
+        expect(work1.busy()).toEqual(['story 3']);
+        expect(work1.done()).toEqual(['story 2']);
+        expect(work2.busy()).toEqual(['story 1']);
+      });
+  });
 })();
