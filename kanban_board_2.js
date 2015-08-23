@@ -11,10 +11,10 @@ var SingleColumn = function(name){
   self.name = name;
   self.stories = ko.observableArray();
 
-  self.add = function(story){
+  self.push = function(story){
     self.stories().push(story);
   };
-  self.getNextStory = function(){
+  self.shift = function(){
     return self.stories().shift();
   };
 

@@ -9,7 +9,7 @@
 
     it('can add a story', function () {
       var backlog = new SingleColumn("TODO");
-      backlog.add('story 1');
+      backlog.push('story 1');
       expect(backlog.stories()).toEqual(['story 1'])
     });
   });
@@ -38,7 +38,7 @@
     describe('with an origin', function(){
       it('should pull a story from its origin', function(){
         var backlog = new SingleColumn("TODO");
-        backlog.add('story 1');
+        backlog.push('story 1');
         var wip = new DoubleColumn("WIP", backlog);
 
         wip.pull();
@@ -49,7 +49,7 @@
 
     describe('with an empty origin', function(){
       it('should not pull a story from its origin', function(){
-        var backlog = new SingleColumn("TODO");
+        var backlog = [];
         var wip = new DoubleColumn("WIP", backlog);
 
         wip.pull();
@@ -59,16 +59,13 @@
 
     describe('with a full wip-limit', function(){
       it('should not pull  a story from its origin', function(){
-        var backlog = new SingleColumn("TODO");
-        backlog.add('story 1');
-        backlog.add('story 2');
-        backlog.add('story 3');
+        var backlog = ['story 1', 'story 2', 'story 3'];
         var wip = new DoubleColumn("WIP", backlog, 2);
 
         wip.pull();
         wip.pull();
         wip.pull();
-        expect(backlog.stories()).toEqual(['story 3'])
+        expect(backlog).toEqual(['story 3'])
         expect(wip.busy()).toEqual(['story 1', 'story 2']);
       });
     });
