@@ -1,3 +1,6 @@
+function roll(sides){
+  return Math.floor(Math.random() * sides);
+};
 
 function Story(name){
   var self = this;
@@ -27,16 +30,26 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.origin = origin;
   self.busy = ko.observableArray();
   self.done = ko.observableArray();
-  self.wip_limit = ko.observable(typeof wipLimit !== 'undefined' ?  wipLimit : 3);
+
+  var wipLimit = typeof wipLimit !== 'undefined' ?  wipLimit : 3;
+  self.wipLimit = ko.observable(wipLimit);
+  self.wipLimitReached = ko.computed(function(){ 
+    return (self.busy().length + self.done().length) >= self.wipLimit(); 
+  });
 
   self.work = function(){
+    if(!self.can_finish()) return;        
     var story = self.busy.shift();
     if(typeof story === 'undefined') return;
     self.done.push(story);
   };
 
+  self.can_finish = function(){
+    return roll(5) > 2;
+  }
+
   self.pull = function(){
-    if(wipLimitReached()) return;
+    if(self.wipLimitReached()) return;
 
     var story = self.origin.shift();
     if(typeof story === 'undefined') return;
@@ -50,10 +63,6 @@ var DoubleColumn = function(name, origin, wipLimit){
 
   self.push = function(story){
     self.busy.push(story);
-  };
-
-  wipLimitReached = function(){ 
-    return self.busy().length >= self.wip_limit(); 
   };
 };
 
@@ -69,6 +78,9 @@ var KanbanBoard = function() {
     self.columns.push(new_column);
     previous_column = new_column;
   }
+    var new_column = new DoubleColumn("Deploy", previous_column);
+    self.columns.push(new_column);
+    new_column.wip_limit = 1000000;
 
   self.iterate = function(){
     for(i=columns().length-1; i >= 0 ; i--){

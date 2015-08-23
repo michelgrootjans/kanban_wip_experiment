@@ -26,18 +26,19 @@
   </div>
 
   <script type="text/html" id="single-column-template">
-    <div class='col-xs-2'>
-      <span data-bind="text: name"></span>
+    <div class='col-xs-2 column'>
+      <span class='name' data-bind="text: name"></span>
       <div class="backlog" data-bind="template: { name: 'story-template', foreach: stories}"></div>
     </div>
   </script>
 
   <script type="text/html" id="column-template">
-    <div class='col-xs-2'>
-      <span data-bind="text: name"></span>
+    <div class='col-xs-2 column'>
+      <span class='name' data-bind="text: name"></span>
+      <input data-bind="value: wipLimit"></input>
       <div class="row">
-        <div class='col-xs-6' data-bind="template: { name: 'story-template', foreach: busy}"></div>
-        <div class='col-xs-6' data-bind="template: { name: 'story-template', foreach: done}"></div>
+        <div class='col-xs-6 busy-column' data-bind="template: { name: 'story-template', foreach: busy}"></div>
+        <div class='col-xs-6 done-column' data-bind="template: { name: 'story-template', foreach: done}"></div>
       </div>
     </div>
   </script>
