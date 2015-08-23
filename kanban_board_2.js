@@ -61,10 +61,14 @@ var KanbanBoard = function() {
   var self = this;
 
   self.backlog = new SingleColumn("Backlog");
-  self.develop = new DoubleColumn("Development", self.backlog);
-  self.qa = new DoubleColumn("QA", self.develop);
+  self.columns = ko.observableArray();
 
-  self.columns = ko.observableArray([self.develop, self.qa]);
+  var previous_column = self.backlog;
+  for(i=0; i<4; i++){
+    var new_column = new DoubleColumn("Column " + (i+1), previous_column);
+    self.columns.push(new_column);
+    previous_column = new_column;
+  }
 
   self.iterate = function(){
     for(i=columns().length-1; i >= 0 ; i--){
