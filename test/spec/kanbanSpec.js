@@ -28,6 +28,15 @@
       expect(wip.done()).toEqual(['story 1']);      
     });
 
+    it('should finish its first story first', function(){
+      var wip = new DoubleColumn("WIP");
+      wip.push('story 1');
+      wip.push('story 2');
+      wip.work();
+      expect(wip.busy()).toEqual(['story 2']);      
+      expect(wip.done()).toEqual(['story 1']);      
+    });
+
     it('should not work if there is no work', function(){
       var wip = new DoubleColumn("WIP");
       wip.work();

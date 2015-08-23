@@ -30,7 +30,7 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.wip_limit = ko.observable(typeof wipLimit !== 'undefined' ?  wipLimit : 3);
 
   self.work = function(){
-    var story = self.busy.pop();
+    var story = self.busy.shift();
     if(typeof story === 'undefined') return;
     self.done.push(story);
   };
