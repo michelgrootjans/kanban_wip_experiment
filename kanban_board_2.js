@@ -81,6 +81,7 @@ var KanbanBoard = function() {
   self.backlog = new SingleColumn("Backlog");
   self.columns = ko.observableArray();
   self.amount_of_work = ko.observable(20);
+  self.number_of_iterations = ko.observable(0);
   
   var previous_column = self.backlog;
   for(i=0; i<4; i++){
@@ -94,6 +95,7 @@ var KanbanBoard = function() {
   self.columns.push(self.deploy);
 
   self.iterate = function(){
+    self.number_of_iterations(self.number_of_iterations() + 1);
     for(i=columns().length-1; i >= 0 ; i--){
       self.columns()[i].work();
       self.columns()[i].pull();
@@ -102,7 +104,7 @@ var KanbanBoard = function() {
 
   self.simulate = function(){
     self.iterate();
-    if(self.is_busy()) { setTimeout(simulate, 100); }
+    if(self.is_busy()) { setTimeout(simulate, 1000); }
   };
 
   self.reset = function(){
