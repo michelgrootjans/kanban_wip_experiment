@@ -5,6 +5,16 @@
   background-color: yellow;
   padding: 5px;
   margin: 5px;
+  float: left;
+}
+
+.backlog {
+  margin-top: 45px;
+}
+
+.backlog .story {
+  background-color: #ccc;
+  margin-top: -40px;
 }
 
 .lead-time{

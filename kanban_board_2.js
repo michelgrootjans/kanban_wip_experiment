@@ -64,27 +64,14 @@ var KanbanBoard = function() {
   self.develop = new DoubleColumn("Development", self.backlog);
   self.qa = new DoubleColumn("QA", self.develop);
 
-  var columns = [self.qa, self.develop];
+  self.columns = ko.observableArray([self.develop, self.qa]);
 
   self.iterate = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].work();
-      columns[i].pull();
+    for(i=columns().length-1; i >= 0 ; i--){
+      self.columns()[i].work();
+      self.columns()[i].pull();
     }    
   };
-
-  self.work = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].work();
-      setTimeout(pull, 100);
-    }    
-  }
-
-  self.pull = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].pull();
-    }
-  }
 
   self.simulate = function(){
     backlog.stories().clear();
