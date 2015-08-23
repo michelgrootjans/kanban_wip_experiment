@@ -21,6 +21,10 @@ var SingleColumn = function(name){
   self.shift = function(){
     return self.stories.shift();
   };
+
+  self.removeAll = function(){
+    self.stories.removeAll();
+  };
 };
 
 var DoubleColumn = function(name, origin, wipLimit){
@@ -64,6 +68,11 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.push = function(story){
     self.busy.push(story);
   };
+
+  self.removeAll = function(){
+    self.busy.removeAll();
+    self.done.removeAll();
+  };
 };
 
 var KanbanBoard = function() {
@@ -71,16 +80,18 @@ var KanbanBoard = function() {
 
   self.backlog = new SingleColumn("Backlog");
   self.columns = ko.observableArray();
-
+  self.amount_of_work = ko.observable(20);
+  
   var previous_column = self.backlog;
   for(i=0; i<4; i++){
     var new_column = new DoubleColumn("Column " + (i+1), previous_column);
     self.columns.push(new_column);
     previous_column = new_column;
   }
-    var new_column = new DoubleColumn("Deploy", previous_column);
-    self.columns.push(new_column);
-    new_column.wip_limit = 1000000;
+
+  self.deploy = new DoubleColumn("Deploy", previous_column, 1000);
+
+  self.columns.push(self.deploy);
 
   self.iterate = function(){
     for(i=columns().length-1; i >= 0 ; i--){
@@ -90,13 +101,23 @@ var KanbanBoard = function() {
   };
 
   self.simulate = function(){
-    backlog.stories().clear();
+    self.iterate();
+    if(self.is_busy()) { setTimeout(simulate, 100); }
   };
 
   self.reset = function(){
-    for(i=0; i<20; i++){
+    for(i=0;i<columns().length; i++){
+      columns()[i].removeAll();
+    }
+
+    backlog.removeAll();
+    for(i=0; i<self.amount_of_work(); i++){
       backlog.push(new Story("Story " + (i+1)));
     }
+  };
+
+  self.is_busy = function(){
+    return self.deploy.done().length < self.amount_of_work();
   };
 
   self.reset();
