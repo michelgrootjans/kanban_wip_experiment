@@ -29,9 +29,7 @@
         </thead>
         <tbody>
           <tr>
-            <td data-bind="foreach: backlog.stories">
-              <div class="story" data-bind="text: name"></div>
-            </td>
+            <td data-bind="template: { name: 'story-template', foreach: backlog}" />
             <td data-bind="template: { name: 'story-template', foreach: wip.busy}" />
             <td data-bind="template: { name: 'story-template', foreach: wip.done}" />
           </tr>

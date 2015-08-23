@@ -40,7 +40,7 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.pull = function(){
     if(wipLimitReached()) return;
 
-    var story = self.origin.getNextStory();
+    var story = self.origin.pop();
     if(typeof story === 'undefined') return;
 
     self.busy.push(story);
@@ -54,7 +54,7 @@ var DoubleColumn = function(name, origin, wipLimit){
 var KanbanBoard = function() {
   var self = this;
 
-  self.backlog = new SingleColumn("Backlog");
+  self.backlog = ko.observableArray();
   self.wip = new DoubleColumn("Work", self.backlog);
 
   var columns = [self.wip];
@@ -73,9 +73,9 @@ var KanbanBoard = function() {
   self.reset = function(){
     wip.done.push(new Story("1"));
     wip.busy.push(new Story("2"));
-    backlog.add(new Story("3"));
-    backlog.add(new Story("4"));
-    backlog.add(new Story("5"));
+    backlog.push(new Story("3"));
+    backlog.push(new Story("4"));
+    backlog.push(new Story("5"));
   };
 
   self.reset();
