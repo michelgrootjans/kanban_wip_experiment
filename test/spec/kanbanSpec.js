@@ -23,15 +23,26 @@
     it('should finish its work', function(){
       var wip = new DoubleColumn("WIP");
       wip.push('story 1');
+      wip.can_finish = function(){ return true; };
       wip.work();
       expect(wip.busy()).toEqual([]);      
       expect(wip.done()).toEqual(['story 1']);      
+    });
+
+    it('should not finish its work if its not done', function(){
+      var wip = new DoubleColumn("WIP");
+      wip.push('story 1');
+      wip.can_finish = function(){ return false; };
+      wip.work();
+      expect(wip.busy()).toEqual(['story 1']);      
+      expect(wip.done()).toEqual([]);      
     });
 
     it('should finish its first story first', function(){
       var wip = new DoubleColumn("WIP");
       wip.push('story 1');
       wip.push('story 2');
+      wip.can_finish = function(){ return true; };
       wip.work();
       expect(wip.busy()).toEqual(['story 2']);      
       expect(wip.done()).toEqual(['story 1']);      
@@ -39,6 +50,7 @@
 
     it('should not work if there is no work', function(){
       var wip = new DoubleColumn("WIP");
+      wip.can_finish = function(){ return true; };
       wip.work();
       expect(wip.busy()).toEqual([]);      
       expect(wip.done()).toEqual([]);      
@@ -81,22 +93,20 @@
 
   });
 
-  describe('two doube columns', function(){
+  describe('two double columns', function(){
       it('should pull stories from each other', function(){
-        var backlog = ['story 1', 'story 2', 'story 3', 'story 4'];
+        var backlog = ['story 1'];
         var work1 = new DoubleColumn("1", backlog, 2);
+        work1.can_finish = function(){ return true; };
         var work2 = new DoubleColumn("2", work1, 2);
 
         work1.pull();
-        work1.pull();
-        work1.pull();
-        work1.work();
         work1.work();
         work2.pull();
 
-        expect(backlog).toEqual(['story 4'])
-        expect(work1.busy()).toEqual(['story 3']);
-        expect(work1.done()).toEqual(['story 2']);
+        expect(backlog).toEqual([])
+        expect(work1.busy()).toEqual([]);
+        expect(work1.done()).toEqual([]);
         expect(work2.busy()).toEqual(['story 1']);
       });
   });

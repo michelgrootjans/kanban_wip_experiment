@@ -5,6 +5,31 @@
   background-color: yellow;
   padding: 5px;
   margin: 5px;
+  float: left;
+}
+
+.column .name {
+  font-weight: bold;
+}
+
+.backlog {
+  margin-top: 45px;
+}
+
+.busy-column {
+  border-left: 2px solid black;
+  min-height: 300px;
+}
+
+.done-column {
+  background-color: #eee;
+  border-left: 1px solid grey;
+  min-height: 300px;
+}
+
+.backlog .story {
+  background-color: #ccc;
+  margin-top: -40px;
 }
 
 .lead-time{

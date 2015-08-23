@@ -17,36 +17,34 @@
     </div>
 
     <div class="row">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Backlog</th>
-            <th colspan="2">
-              <span data-bind="text: develop.name"></span>
-              <input data-bind="value: develop.wip_limit"></input>
-            </th>
-            <th colspan="2">
-              <span data-bind="text: qa.name"></span>
-              <input data-bind="value: qa.wip_limit"></input>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-bind="template: { name: 'story-template', foreach: backlog.stories}" />
-            <td data-bind="template: { name: 'story-template', foreach: develop.busy}" />
-            <td data-bind="template: { name: 'story-template', foreach: develop.done}" />
-            <td data-bind="template: { name: 'story-template', foreach: qa.busy}" />
-            <td data-bind="template: { name: 'story-template', foreach: qa.done}" />
-          </tr>
-        </tbody>
-      </table>
+      <div data-bind="template: { name: 'single-column-template', data: backlog}">
+      </div>
+      <div data-bind="template: { name: 'column-template', foreach: columns}">
+      </div>
     </div>
 
   </div>
 
+  <script type="text/html" id="single-column-template">
+    <div class='col-xs-2 column'>
+      <span class='name' data-bind="text: name"></span>
+      <div class="backlog" data-bind="template: { name: 'story-template', foreach: stories}"></div>
+    </div>
+  </script>
+
+  <script type="text/html" id="column-template">
+    <div class='col-xs-2 column'>
+      <span class='name' data-bind="text: name"></span>
+      <input data-bind="value: wipLimit"></input>
+      <div class="row">
+        <div class='col-xs-6 busy-column' data-bind="template: { name: 'story-template', foreach: busy}"></div>
+        <div class='col-xs-6 done-column' data-bind="template: { name: 'story-template', foreach: done}"></div>
+      </div>
+    </div>
+  </script>
+
   <script type="text/html" id="story-template">
-    <div class="story" data-bind="text: name"></div>
+    <div class="story" data-bind="text: name"></span>
   </script>
 
   <script type="text/javascript" src="kanban_board_2.js"></script>

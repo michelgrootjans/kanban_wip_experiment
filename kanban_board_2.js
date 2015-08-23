@@ -1,3 +1,6 @@
+function roll(sides){
+  return Math.floor(Math.random() * sides);
+};
 
 function Story(name){
   var self = this;
@@ -27,16 +30,26 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.origin = origin;
   self.busy = ko.observableArray();
   self.done = ko.observableArray();
-  self.wip_limit = ko.observable(typeof wipLimit !== 'undefined' ?  wipLimit : 3);
+
+  var wipLimit = typeof wipLimit !== 'undefined' ?  wipLimit : 3;
+  self.wipLimit = ko.observable(wipLimit);
+  self.wipLimitReached = ko.computed(function(){ 
+    return (self.busy().length + self.done().length) >= self.wipLimit(); 
+  });
 
   self.work = function(){
+    if(!self.can_finish()) return;        
     var story = self.busy.shift();
     if(typeof story === 'undefined') return;
     self.done.push(story);
   };
 
+  self.can_finish = function(){
+    return roll(5) > 2;
+  }
+
   self.pull = function(){
-    if(wipLimitReached()) return;
+    if(self.wipLimitReached()) return;
 
     var story = self.origin.shift();
     if(typeof story === 'undefined') return;
@@ -51,51 +64,39 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.push = function(story){
     self.busy.push(story);
   };
-
-  wipLimitReached = function(){ 
-    return self.busy().length >= self.wip_limit(); 
-  };
 };
 
 var KanbanBoard = function() {
   var self = this;
 
   self.backlog = new SingleColumn("Backlog");
-  self.develop = new DoubleColumn("Development", self.backlog);
-  self.qa = new DoubleColumn("QA", self.develop);
+  self.columns = ko.observableArray();
 
-  var columns = [self.qa, self.develop];
+  var previous_column = self.backlog;
+  for(i=0; i<4; i++){
+    var new_column = new DoubleColumn("Column " + (i+1), previous_column);
+    self.columns.push(new_column);
+    previous_column = new_column;
+  }
+    var new_column = new DoubleColumn("Deploy", previous_column);
+    self.columns.push(new_column);
+    new_column.wip_limit = 1000000;
 
   self.iterate = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].work();
-      columns[i].pull();
+    for(i=columns().length-1; i >= 0 ; i--){
+      self.columns()[i].work();
+      self.columns()[i].pull();
     }    
   };
-
-  self.work = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].work();
-      setTimeout(pull, 100);
-    }    
-  }
-
-  self.pull = function(){
-    for(i=0; i < columns.length; i++){
-      columns[i].pull();
-    }
-  }
 
   self.simulate = function(){
     backlog.stories().clear();
   };
 
   self.reset = function(){
-    backlog.push(new Story("Story 1"));
-    backlog.push(new Story("Story 2"));
-    backlog.push(new Story("Story 3"));
-    backlog.push(new Story("Story 4"));
-    backlog.push(new Story("Story 5"));
+    for(i=0; i<20; i++){
+      backlog.push(new Story("Story " + (i+1)));
+    }
   };
 
   self.reset();
