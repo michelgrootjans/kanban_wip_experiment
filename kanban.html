@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <button data-bind="click: iterate" class="btn btn-primary">Iterate</button>
+        <button data-bind="click: simulate" class="btn btn-default">Simulate</button>
+        <button data-bind="click: reset" class="btn btn-default">Reset</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Backlog</th>
+            <th data-bind="text: wip.name" colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-bind="foreach: backlog.stories">
+              <div class="story" data-bind="text: text"></div>
+            </td>
+            <td class="busy" data-bind="foreach: wip.busy">
+              <div class="story" data-bind="text: text"></div>
+            </td>
+            <td class="done" data-bind="foreach: wip.done">
+              <div class="story" data-bind="text: text"></div>
+            </td>
+            <td class="done"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <script type="text/javascript" src="kanban_board_2.js"></script>
+
+  </body>
+</html>
