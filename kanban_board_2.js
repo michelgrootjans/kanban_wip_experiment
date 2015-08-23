@@ -2,7 +2,7 @@
 function Story(name){
   var self = this;
 
-  self.text = "Story " + name;
+  self.name = "Story " + name;
 };
 
 var SingleColumn = function(name){
@@ -36,11 +36,12 @@ var DoubleColumn = function(name, origin, wipLimit){
   };
 
   self.pull = function(){
-    if(wipLimitReached())
-      return;
+    if(wipLimitReached()) return;
+
     var story = self.origin.getNextStory();
-    if(story !== undefined)
-      self.busy.push(story);
+    if(typeof story === 'undefined') return;
+
+    self.busy.push(story);
   };
 
   wipLimitReached = function(){ 
@@ -64,14 +65,15 @@ var KanbanBoard = function() {
   };
 
   self.simulate = function(){
-    console.log('simulate');
+    backlog.stories().clear();
   };
 
   self.reset = function(){
-    backlog.add(new Story("1"));
-    backlog.add(new Story("2"));
+    wip.done.push(new Story("1"));
+    wip.busy.push(new Story("2"));
     backlog.add(new Story("3"));
     backlog.add(new Story("4"));
+    backlog.add(new Story("5"));
   };
 
   self.reset();

@@ -20,20 +20,23 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Backlog</th>
-            <th data-bind="text: wip.name" colspan="2"></th>
+            <th data-bind="text: backlog.name"></th>
+            <th>
+              <span data-bind="text: wip.name" colspan="2"></span>
+              <input data-bind="value: wip.wip_limit"></input>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td data-bind="foreach: backlog.stories">
-              <div class="story" data-bind="text: text"></div>
+              <div class="story" data-bind="text: name"></div>
             </td>
-            <td class="busy" data-bind="foreach: wip.busy">
-              <div class="story" data-bind="text: text"></div>
+            <td data-bind="foreach: wip.busy">
+              <div class="story" data-bind="text: name"></div>
             </td>
-            <td class="done" data-bind="foreach: wip.done">
-              <div class="story" data-bind="text: text"></div>
+            <td data-bind="foreach: wip.done">
+              <div class="story" data-bind="text: name"></div>
             </td>
             <td class="done"></td>
           </tr>
@@ -42,6 +45,7 @@
     </div>
 
   </div>
+
   <script type="text/javascript" src="kanban_board_2.js"></script>
 
   </body>
