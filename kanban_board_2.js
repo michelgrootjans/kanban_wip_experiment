@@ -2,7 +2,7 @@
 function Story(name){
   var self = this;
 
-  self.name = "Story " + name;
+  self.name = name;
 };
 
 var SingleColumn = function(name){
@@ -12,14 +12,12 @@ var SingleColumn = function(name){
   self.stories = ko.observableArray();
 
   self.push = function(story){
-    self.stories().push(story);
-  };
-  self.shift = function(){
-    return self.stories().shift();
+    self.stories.push(story)
   };
 
-  self.work = function(){};
-  self.pull = function(){};
+  self.shift = function(){
+    return self.stories.shift();
+  }
 };
 
 var DoubleColumn = function(name, origin, wipLimit){
@@ -54,28 +52,38 @@ var DoubleColumn = function(name, origin, wipLimit){
 var KanbanBoard = function() {
   var self = this;
 
-  self.backlog = ko.observableArray();
+  self.backlog = new SingleColumn("Backlog");
   self.wip = new DoubleColumn("Work", self.backlog);
 
   var columns = [self.wip];
 
   self.iterate = function(){
+    self.work();
+  };
+
+  self.work = function(){
     for(i=0; i < columns.length; i++){
       columns[i].work();
+      setTimeout(pull, 100);
+    }    
+  }
+
+  self.pull = function(){
+    for(i=0; i < columns.length; i++){
       columns[i].pull();
     }
-  };
+  }
 
   self.simulate = function(){
     backlog.stories().clear();
   };
 
   self.reset = function(){
-    wip.done.push(new Story("1"));
-    wip.busy.push(new Story("2"));
-    backlog.push(new Story("3"));
-    backlog.push(new Story("4"));
-    backlog.push(new Story("5"));
+    wip.done.push(new Story("Story 1"));
+    wip.busy.push(new Story("Story 2"));
+    backlog.push(new Story("Story 3"));
+    backlog.push(new Story("Story 4"));
+    backlog.push(new Story("Story 5"));
   };
 
   self.reset();
