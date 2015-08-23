@@ -104,7 +104,7 @@ var KanbanBoard = function() {
 
   self.simulate = function(){
     self.iterate();
-    if(self.is_busy()) { setTimeout(simulate, 1000); }
+    if(self.is_busy()) { setTimeout(simulate, 200); }
   };
 
   self.reset = function(){
