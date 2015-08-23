@@ -24,8 +24,15 @@
       var wip = new DoubleColumn("WIP");
       wip.busy().push('story 1');
       wip.work();
-      expect(wip.busy().length).toEqual(0);      
+      expect(wip.busy()).toEqual([]);      
       expect(wip.done()).toEqual(['story 1']);      
+    });
+
+    it('should not work if there is no work', function(){
+      var wip = new DoubleColumn("WIP");
+      wip.work();
+      expect(wip.busy()).toEqual([]);      
+      expect(wip.done()).toEqual([]);      
     });
 
     describe('with an origin', function(){

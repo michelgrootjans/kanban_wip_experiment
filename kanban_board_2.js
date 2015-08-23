@@ -33,6 +33,7 @@ var DoubleColumn = function(name, origin, wipLimit){
 
   self.work = function(){
     var story = self.busy.pop();
+    if(typeof story === 'undefined') return;
     self.done.push(story);
   };
 
