@@ -32,19 +32,18 @@
             <td data-bind="foreach: backlog.stories">
               <div class="story" data-bind="text: name"></div>
             </td>
-            <td data-bind="foreach: wip.busy">
-              <div class="story" data-bind="text: name"></div>
-            </td>
-            <td data-bind="foreach: wip.done">
-              <div class="story" data-bind="text: name"></div>
-            </td>
-            <td class="done"></td>
+            <td data-bind="template: { name: 'story-template', foreach: wip.busy}" />
+            <td data-bind="template: { name: 'story-template', foreach: wip.done}" />
           </tr>
         </tbody>
       </table>
     </div>
 
   </div>
+
+  <script type="text/html" id="story-template">
+    <div class="story" data-bind="text: name"></div>
+  </script>
 
   <script type="text/javascript" src="kanban_board_2.js"></script>
 

@@ -9,8 +9,8 @@
 
     it('can add a story', function () {
       var backlog = new SingleColumn("TODO");
-      backlog.add('story');
-      expect(backlog.stories().length).toEqual(1)
+      backlog.add('story 1');
+      expect(backlog.stories()).toEqual(['story 1'])
     });
   });
 
@@ -20,15 +20,23 @@
       expect(wip.name).toEqual("WIP")
     });
 
+    it('should finish its work', function(){
+      var wip = new DoubleColumn("WIP");
+      wip.busy().push('story 1');
+      wip.work();
+      expect(wip.busy().length).toEqual(0);      
+      expect(wip.done()).toEqual(['story 1']);      
+    });
+
     describe('with an origin', function(){
       it('should pull a story from its origin', function(){
         var backlog = new SingleColumn("TODO");
-        backlog.add('a story');
+        backlog.add('story 1');
         var wip = new DoubleColumn("WIP", backlog);
 
         wip.pull();
-        expect(backlog.stories().length).toEqual(0)
-        expect(wip.busy().length).toEqual(1);
+        expect(backlog.stories()).toEqual([])
+        expect(wip.busy()).toEqual(['story 1']);
       });
     });
 
@@ -38,7 +46,7 @@
         var wip = new DoubleColumn("WIP", backlog);
 
         wip.pull();
-        expect(wip.busy().length).toEqual(0);
+        expect(wip.busy()).toEqual([]);
       });
     });
 
@@ -53,8 +61,8 @@
         wip.pull();
         wip.pull();
         wip.pull();
-        expect(backlog.stories().length).toEqual(1)
-        expect(wip.busy().length).toEqual(2);
+        expect(backlog.stories()).toEqual(['story 3'])
+        expect(wip.busy()).toEqual(['story 1', 'story 2']);
       });
     });
 

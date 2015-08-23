@@ -32,7 +32,8 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.wip_limit = ko.observable(typeof wipLimit !== 'undefined' ?  wipLimit : 3);
 
   self.work = function(){
-
+    var story = self.busy.pop();
+    self.done.push(story);
   };
 
   self.pull = function(){
