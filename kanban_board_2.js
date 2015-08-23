@@ -44,6 +44,10 @@ var DoubleColumn = function(name, origin, wipLimit){
     self.busy.push(story);
   };
 
+  self.push = function(story){
+    self.busy.push(story);
+  }
+
   wipLimitReached = function(){ 
     return self.busy().length >= self.wip_limit(); 
   };
@@ -79,8 +83,8 @@ var KanbanBoard = function() {
   };
 
   self.reset = function(){
-    wip.done.push(new Story("Story 1"));
-    wip.busy.push(new Story("Story 2"));
+    wip.push(new Story("Story 1"));
+    wip.push(new Story("Story 2"));
     backlog.push(new Story("Story 3"));
     backlog.push(new Story("Story 4"));
     backlog.push(new Story("Story 5"));

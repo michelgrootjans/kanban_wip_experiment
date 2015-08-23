@@ -22,7 +22,7 @@
 
     it('should finish its work', function(){
       var wip = new DoubleColumn("WIP");
-      wip.busy().push('story 1');
+      wip.push('story 1');
       wip.work();
       expect(wip.busy()).toEqual([]);      
       expect(wip.done()).toEqual(['story 1']);      
