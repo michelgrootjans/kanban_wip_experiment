@@ -13,10 +13,10 @@ var SingleColumn = function(name){
 
   self.add = function(story){
     self.stories().push(story);
-  }
+  };
   self.getNextStory = function(){
     return self.stories().shift();
-  }
+  };
 
   self.work = function(){};
   self.pull = function(){};
@@ -40,7 +40,7 @@ var DoubleColumn = function(name, origin, wipLimit){
   self.pull = function(){
     if(wipLimitReached()) return;
 
-    var story = self.origin.pop();
+    var story = self.origin.shift();
     if(typeof story === 'undefined') return;
 
     self.busy.push(story);
