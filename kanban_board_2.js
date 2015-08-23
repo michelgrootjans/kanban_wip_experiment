@@ -22,20 +22,29 @@ var SingleColumn = function(name){
   self.pull = function(){};
 };
 
-var DoubleColumn = function(name, origin){
+var DoubleColumn = function(name, origin, wipLimit){
   var self = this;
 
   self.name = name;
   self.origin = origin;
   self.busy = ko.observableArray();
   self.done = ko.observableArray();
+  self.wip_limit = ko.observable(typeof wipLimit !== 'undefined' ?  wipLimit : 3);
 
   self.work = function(){
 
   };
+
   self.pull = function(){
+    if(wipLimitReached())
+      return;
     var story = self.origin.getNextStory();
-    self.busy.push(story);
+    if(story !== undefined)
+      self.busy.push(story);
+  };
+
+  wipLimitReached = function(){ 
+    return self.busy().length >= self.wip_limit(); 
   };
 };
 
