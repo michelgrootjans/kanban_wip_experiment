@@ -22,16 +22,22 @@
           <tr>
             <th>Backlog</th>
             <th colspan="2">
-              <span data-bind="text: wip.name"></span>
-              <input data-bind="value: wip.wip_limit"></input>
+              <span data-bind="text: develop.name"></span>
+              <input data-bind="value: develop.wip_limit"></input>
+            </th>
+            <th colspan="2">
+              <span data-bind="text: qa.name"></span>
+              <input data-bind="value: qa.wip_limit"></input>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td data-bind="template: { name: 'story-template', foreach: backlog.stories}" />
-            <td data-bind="template: { name: 'story-template', foreach: wip.busy}" />
-            <td data-bind="template: { name: 'story-template', foreach: wip.done}" />
+            <td data-bind="template: { name: 'story-template', foreach: develop.busy}" />
+            <td data-bind="template: { name: 'story-template', foreach: develop.done}" />
+            <td data-bind="template: { name: 'story-template', foreach: qa.busy}" />
+            <td data-bind="template: { name: 'story-template', foreach: qa.done}" />
           </tr>
         </tbody>
       </table>

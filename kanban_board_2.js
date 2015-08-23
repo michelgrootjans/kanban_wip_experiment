@@ -61,12 +61,16 @@ var KanbanBoard = function() {
   var self = this;
 
   self.backlog = new SingleColumn("Backlog");
-  self.wip = new DoubleColumn("Work", self.backlog);
+  self.develop = new DoubleColumn("Development", self.backlog);
+  self.qa = new DoubleColumn("QA", self.develop);
 
-  var columns = [self.wip];
+  var columns = [self.qa, self.develop];
 
   self.iterate = function(){
-    self.work();
+    for(i=0; i < columns.length; i++){
+      columns[i].work();
+      columns[i].pull();
+    }    
   };
 
   self.work = function(){
@@ -87,8 +91,8 @@ var KanbanBoard = function() {
   };
 
   self.reset = function(){
-    wip.push(new Story("Story 1"));
-    wip.push(new Story("Story 2"));
+    backlog.push(new Story("Story 1"));
+    backlog.push(new Story("Story 2"));
     backlog.push(new Story("Story 3"));
     backlog.push(new Story("Story 4"));
     backlog.push(new Story("Story 5"));
